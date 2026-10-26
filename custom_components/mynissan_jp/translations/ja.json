@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "NISSAN IDでログイン",
+        "description": "NISSAN IDのログイン結果はMyNISSANアプリにしか渡されないため、手作業でコピーする必要があります。\n\n1. パソコンのChromeでデベロッパーツール（Cmd+Option+I または F12）を開き、**Network**タブを表示します。\n2. そのタブで[NISSAN IDのログインページ]({url})を開きます（MyNISSANが入ったスマホでは開かないでください）。\n3. NISSAN IDとパスワード、メールで届いたアクセスコードでログインします。\n4. ログイン後、画面は何も変わらないように見えます。Networkタブの最後のリクエスト（`ncx://ciam.prd/login?code=` で始まるアドレス）を探し、アドレス全体をコピーします。\n5. 数分以内に下の欄に貼り付けてください。",
+        "data": {
+          "redirect_url": "ログインアドレス（ncx://ciam.prd/login?code=...）"
+        },
+        "data_description": {
+          "redirect_url": "ログイン後にNISSAN IDが移動させようとするアドレスです。"
+        }
+      },
+      "reauth_confirm": {
+        "title": "MyNISSANに再ログイン",
+        "description": "NISSAN IDのログイン結果はMyNISSANアプリにしか渡されないため、手作業でコピーする必要があります。\n\n1. パソコンのChromeでデベロッパーツール（Cmd+Option+I または F12）を開き、**Network**タブを表示します。\n2. そのタブで[NISSAN IDのログインページ]({url})を開きます（MyNISSANが入ったスマホでは開かないでください）。\n3. NISSAN IDとパスワード、メールで届いたアクセスコードでログインします。\n4. ログイン後、画面は何も変わらないように見えます。Networkタブの最後のリクエスト（`ncx://ciam.prd/login?code=` で始まるアドレス）を探し、アドレス全体をコピーします。\n5. 数分以内に下の欄に貼り付けてください。",
+        "data": {
+          "redirect_url": "ログインアドレス（ncx://ciam.prd/login?code=...）"
+        },
+        "data_description": {
+          "redirect_url": "ログイン後にNISSAN IDが移動させようとするアドレスです。"
+        }
+      }
+    },
+    "error": {
+      "invalid_redirect": "今回のログインのアドレスではありません。上のリンクからログインし、ncx://ciam.prd/login?code=... のアドレス全体をコピーしてください。",
+      "invalid_auth": "NISSAN IDにログインを拒否されました（時間がかかりすぎた可能性があります）。上に新しいログインリンクを用意したので、もう一度お試しください。",
+      "cannot_connect": "日産のサーバーに接続できませんでした。ログを確認して、もう一度お試しください。"
+    },
+    "abort": {
+      "already_configured": "このMyNISSANアカウントは設定済みです。",
+      "reauth_successful": "再ログインしました。",
+      "unique_id_mismatch": "再ログイン中のアカウントとは別のMyNISSANアカウントです。"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "range": {
+        "name": "航続可能距離"
+      },
+      "available_energy": {
+        "name": "利用可能電力量"
+      },
+      "battery_capacity": {
+        "name": "バッテリー容量"
+      },
+      "charge_state": {
+        "name": "充電状態",
+        "state": {
+          "not_charging": "充電していません",
+          "waiting_for_schedule": "タイマー待機中",
+          "charge_ended": "充電完了",
+          "waiting_for_current": "電流待ち",
+          "flap_open": "充電口が開いています",
+          "waiting": "待機中",
+          "charging": "充電中",
+          "error": "エラー",
+          "unavailable": "利用できません",
+          "unknown": "不明"
+        }
+      },
+      "charge_time_remaining": {
+        "name": "充電残り時間"
+      },
+      "odometer": {
+        "name": "総走行距離"
+      },
+      "internal_temperature": {
+        "name": "車内温度"
+      },
+      "last_updated": {
+        "name": "最終更新"
+      }
+    },
+    "binary_sensor": {
+      "plugged_in": {
+        "name": "充電プラグ接続"
+      },
+      "charging": {
+        "name": "充電中"
+      },
+      "lock": {
+        "name": "ドアロック"
+      },
+      "doors": {
+        "name": "ドア"
+      },
+      "hatch": {
+        "name": "バックドア"
+      },
+      "hood": {
+        "name": "ボンネット"
+      },
+      "climate": {
+        "name": "エアコン"
+      },
+      "warnings": {
+        "name": "警告灯"
+      }
+    },
+    "device_tracker": {
+      "location": {
+        "name": "位置"
+      }
+    }
+  }
+}

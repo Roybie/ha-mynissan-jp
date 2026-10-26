@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sign in with your NISSAN ID",
+        "description": "NISSAN ID only hands the login to the MyNISSAN app, so it has to be copied back by hand:\n\n1. On a computer, open Chrome and open DevTools (Cmd+Option+I or F12) on the **Network** tab.\n2. In that tab, open [this NISSAN ID login]({url}) (not on the phone with MyNISSAN installed).\n3. Sign in with your NISSAN ID and the access code emailed to you.\n4. The page then seems to do nothing. In the Network tab, find the last request, which goes to an address starting with `ncx://ciam.prd/login?code=`, and copy that whole address.\n5. Paste it below within a few minutes.",
+        "data": {
+          "redirect_url": "Login address (ncx://ciam.prd/login?code=...)"
+        },
+        "data_description": {
+          "redirect_url": "The address NISSAN ID sends you to after signing in."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Sign in to MyNISSAN again",
+        "description": "NISSAN ID only hands the login to the MyNISSAN app, so it has to be copied back by hand:\n\n1. On a computer, open Chrome and open DevTools (Cmd+Option+I or F12) on the **Network** tab.\n2. In that tab, open [this NISSAN ID login]({url}) (not on the phone with MyNISSAN installed).\n3. Sign in with your NISSAN ID and the access code emailed to you.\n4. The page then seems to do nothing. In the Network tab, find the last request, which goes to an address starting with `ncx://ciam.prd/login?code=`, and copy that whole address.\n5. Paste it below within a few minutes.",
+        "data": {
+          "redirect_url": "Login address (ncx://ciam.prd/login?code=...)"
+        },
+        "data_description": {
+          "redirect_url": "The address NISSAN ID sends you to after signing in."
+        }
+      }
+    },
+    "error": {
+      "invalid_redirect": "That is not the address from this login. Copy the whole ncx://ciam.prd/login?code=... address from the link above.",
+      "invalid_auth": "NISSAN ID rejected the login, probably because it took too long. A new login link has been made above; please try again.",
+      "cannot_connect": "Could not reach Nissan. Check the logs and try again."
+    },
+    "abort": {
+      "already_configured": "This MyNISSAN account is already set up.",
+      "reauth_successful": "Signed in again.",
+      "unique_id_mismatch": "That is a different MyNISSAN account from the one being signed in again."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "range": {
+        "name": "Range"
+      },
+      "available_energy": {
+        "name": "Available energy"
+      },
+      "battery_capacity": {
+        "name": "Battery capacity"
+      },
+      "charge_state": {
+        "name": "Charge state",
+        "state": {
+          "not_charging": "Not charging",
+          "waiting_for_schedule": "Waiting for schedule",
+          "charge_ended": "Charge ended",
+          "waiting_for_current": "Waiting for current",
+          "flap_open": "Charge port open",
+          "waiting": "Waiting",
+          "charging": "Charging",
+          "error": "Error",
+          "unavailable": "Unavailable",
+          "unknown": "Unknown"
+        }
+      },
+      "charge_time_remaining": {
+        "name": "Charge time remaining"
+      },
+      "odometer": {
+        "name": "Odometer"
+      },
+      "internal_temperature": {
+        "name": "Cabin temperature"
+      },
+      "last_updated": {
+        "name": "Last updated"
+      }
+    },
+    "binary_sensor": {
+      "plugged_in": {
+        "name": "Plugged in"
+      },
+      "charging": {
+        "name": "Charging"
+      },
+      "lock": {
+        "name": "Lock"
+      },
+      "doors": {
+        "name": "Doors"
+      },
+      "hatch": {
+        "name": "Hatch"
+      },
+      "hood": {
+        "name": "Hood"
+      },
+      "climate": {
+        "name": "Climate"
+      },
+      "warnings": {
+        "name": "Warning lamps"
+      }
+    },
+    "device_tracker": {
+      "location": {
+        "name": "Location"
+      }
+    }
+  }
+}
