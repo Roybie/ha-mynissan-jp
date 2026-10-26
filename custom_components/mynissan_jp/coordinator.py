@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 import logging
 
 from homeassistant.config_entries import ConfigEntry
@@ -10,7 +11,13 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import MyNissanAuthError, MyNissanClient, MyNissanError, Vehicle, VehicleStatus
-from .const import DOMAIN, SCAN_INTERVAL
+from .const import (
+    CONF_INTERVAL,
+    CONF_INTERVAL_CHARGING,
+    DEFAULT_INTERVAL,
+    DEFAULT_INTERVAL_CHARGING,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,10 +37,22 @@ class MyNissanCoordinator(DataUpdateCoordinator[dict[str, VehicleStatus]]):
             _LOGGER,
             config_entry=entry,
             name=DOMAIN,
-            update_interval=SCAN_INTERVAL,
+            update_interval=timedelta(
+                minutes=entry.options.get(CONF_INTERVAL, DEFAULT_INTERVAL)
+            ),
         )
         self.client = client
         self.vehicles: dict[str, Vehicle] = {}
+
+    def next_interval(self, data: dict[str, VehicleStatus] | None) -> timedelta:
+        """The charging interval while any car charges, otherwise the normal one."""
+        options = self.config_entry.options
+        minutes = options.get(CONF_INTERVAL, DEFAULT_INTERVAL)
+        if any(status.charging for status in (data or {}).values()):
+            minutes = min(
+                minutes, options.get(CONF_INTERVAL_CHARGING, DEFAULT_INTERVAL_CHARGING)
+            )
+        return timedelta(minutes=minutes)
 
     async def _async_setup(self) -> None:
         try:
@@ -53,4 +72,6 @@ class MyNissanCoordinator(DataUpdateCoordinator[dict[str, VehicleStatus]]):
             raise ConfigEntryAuthFailed(str(err)) from err
         except MyNissanError as err:
             raise UpdateFailed(str(err)) from err
+        # The next update is scheduled after this returns, with this interval
+        self.update_interval = self.next_interval(data)
         return data

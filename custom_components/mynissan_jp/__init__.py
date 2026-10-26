@@ -27,7 +27,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyNissanConfigEntry) -> 
     entry.runtime_data = coordinator
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    entry.async_on_unload(entry.add_update_listener(_async_entry_updated))
     return True
+
+
+async def _async_entry_updated(hass: HomeAssistant, entry: MyNissanConfigEntry) -> None:
+    """Apply new intervals straight away.
+
+    This also runs whenever a renewed login token is saved, which must not
+    cause an extra update.
+    """
+    coordinator = entry.runtime_data
+    interval = coordinator.next_interval(coordinator.data)
+    if interval != coordinator.update_interval:
+        coordinator.update_interval = interval
+        await coordinator.async_request_refresh()
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: MyNissanConfigEntry) -> bool:

@@ -7,8 +7,10 @@ by [HomeAssistant-NissanConnect-JP](https://github.com/developerfromjokela/HomeA
 
 ## What it shows
 
-Every 5 minutes it reads the data Nissan holds for the car. This does not wake the
-car, so values are as of the car's last report (see the *Last updated* sensor).
+Every 5 minutes (2 while charging) it reads the data Nissan holds for the car. This
+does not wake the car, so values are as of the car's last report (see the *Last
+updated* sensor). Both intervals can be changed under **Configure** on the
+integration.
 
 - Battery level, range, available energy, battery capacity
 - Plugged in, charging, charge state, charge time remaining

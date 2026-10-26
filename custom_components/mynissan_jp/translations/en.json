@@ -103,5 +103,21 @@
         "name": "Location"
       }
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Update intervals",
+        "description": "How often to fetch the car's data from Nissan. This reads the data the car last sent and does not wake the car.",
+        "data": {
+          "interval": "Update interval",
+          "interval_charging": "Update interval while charging"
+        },
+        "data_description": {
+          "interval": "Minutes between updates.",
+          "interval_charging": "Minutes between updates while a car is charging. Used only if shorter than the normal interval."
+        }
+      }
+    }
   }
 }

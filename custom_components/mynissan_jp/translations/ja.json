@@ -103,5 +103,21 @@
         "name": "位置"
       }
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "更新間隔",
+        "description": "日産のサーバーから車のデータを取得する間隔です。車が最後に送信したデータを読むだけで、車を起動させることはありません。",
+        "data": {
+          "interval": "更新間隔",
+          "interval_charging": "充電中の更新間隔"
+        },
+        "data_description": {
+          "interval": "更新の間隔（分）です。",
+          "interval_charging": "充電中の更新の間隔（分）です。通常の間隔より短い場合のみ使われます。"
+        }
+      }
+    }
   }
 }

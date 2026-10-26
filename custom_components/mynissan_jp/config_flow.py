@@ -12,8 +12,20 @@ from typing import Any
 
 import voluptuous as vol
 
-from homeassistant.config_entries import SOURCE_REAUTH, ConfigFlow, ConfigFlowResult
+from homeassistant.config_entries import (
+    SOURCE_REAUTH,
+    ConfigEntry,
+    ConfigFlow,
+    ConfigFlowResult,
+    OptionsFlow,
+)
+from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.selector import (
+    NumberSelector,
+    NumberSelectorConfig,
+    NumberSelectorMode,
+)
 
 from .api import (
     AuthorizeRequest,
@@ -23,11 +35,25 @@ from .api import (
     MyNissanError,
     async_exchange_redirect,
 )
-from .const import CONF_REDIRECT_URL, CONF_REFRESH_TOKEN, DOMAIN
+from .const import (
+    CONF_INTERVAL,
+    CONF_INTERVAL_CHARGING,
+    CONF_REDIRECT_URL,
+    CONF_REFRESH_TOKEN,
+    DEFAULT_INTERVAL,
+    DEFAULT_INTERVAL_CHARGING,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
 SCHEMA = vol.Schema({vol.Required(CONF_REDIRECT_URL): str})
+
+MINUTES = NumberSelector(
+    NumberSelectorConfig(
+        min=1, max=120, step=1, unit_of_measurement="min", mode=NumberSelectorMode.BOX
+    )
+)
 
 
 class MyNissanConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -35,6 +61,11 @@ class MyNissanConfigFlow(ConfigFlow, domain=DOMAIN):
 
     def __init__(self) -> None:
         self._auth = AuthorizeRequest.new()
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry: ConfigEntry) -> MyNissanOptionsFlow:
+        return MyNissanOptionsFlow()
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -90,4 +121,36 @@ class MyNissanConfigFlow(ConfigFlow, domain=DOMAIN):
             data_schema=SCHEMA,
             description_placeholders={"url": self._auth.url},
             errors=errors,
+        )
+
+
+class MyNissanOptionsFlow(OptionsFlow):
+    """How often to fetch the car data."""
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        if user_input is not None:
+            # The number selector returns floats
+            return self.async_create_entry(
+                data={key: int(value) for key, value in user_input.items()}
+            )
+
+        options = self.config_entry.options
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_INTERVAL,
+                        default=options.get(CONF_INTERVAL, DEFAULT_INTERVAL),
+                    ): MINUTES,
+                    vol.Required(
+                        CONF_INTERVAL_CHARGING,
+                        default=options.get(
+                            CONF_INTERVAL_CHARGING, DEFAULT_INTERVAL_CHARGING
+                        ),
+                    ): MINUTES,
+                }
+            ),
         )
