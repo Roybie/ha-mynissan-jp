@@ -1,10 +1,11 @@
 {
   "domain": "mynissan_jp",
   "name": "MyNISSAN Japan",
-  "codeowners": [],
+  "codeowners": ["@Roybie"],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/",
+  "documentation": "https://github.com/Roybie/ha-mynissan-jp",
+  "issue_tracker": "https://github.com/Roybie/ha-mynissan-jp/issues",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "requirements": [],
