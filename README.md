@@ -18,7 +18,9 @@ integration.
 - Lock, doors, hatch, hood, warning lamps
 - Location
 
-Controls (climate, charging, asking the car for fresh data) are not in this version.
+> **Sensors only.** This version only reads data. Controls such as climate, charging,
+> a charge limit and asking the car for fresh data may come in a later version; see
+> [docs/controls.md](docs/controls.md) for what is known so far.
 
 ## Install
 
